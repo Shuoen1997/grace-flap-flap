@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grace Flap Flap Host</title>
+</head>
+Ω
+<body>
+<style>
+    .inputf {
+        font-weight: bold;
+    }
+</style>
+<h1>Hello, world! This is Grace Flap Flap</h1>
+<!--<div>-->
+<!--    <span class="inputf">-->
+<!--        <label for="message-context"> Your message:-->
+<!--        <input type="text" id="message-context">-->
+<!--    </label>-->
+<!--    <button name="send-message-btn">Click me to send message!</button>-->
+<!--    </span>-->
+
+<!--</div>-->
+{% block content %}
+  <form method="post">
+    <label for="message-context">Your message:</label><br>
+      <textarea name="message-context" id="message-context" rows="4", cols="50"></textarea>
+    <input type="submit" value="Submit message">
+  </form>
+{% endblock %}
+</body>
+</html>
