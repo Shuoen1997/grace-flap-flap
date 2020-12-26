@@ -25,7 +25,7 @@ def main():
         return "Not permitted!"
 
     if request.method == 'POST':
-        message = request.form['message-context']
+        message = request.form['message-context'] or "nothing"
         channel_access_token = os.getenv('CHANNEL_ACCESS_TOKEN')
         headers = {
             'Content-Type': 'application/json',
