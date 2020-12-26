@@ -15,19 +15,19 @@ class TestMessage:
     def test_language_input_thankful(self):
         user_input = "好感謝今天..."
         reply = MessageProcessHelper(user_input).calc_reply()
-        assert "確實" in reply
+        assert "感謝", "確實" in reply
 
         user_input = "真的很感恩今天..."
         reply = MessageProcessHelper(user_input).calc_reply()
-        assert "確實" in reply
+        assert "感恩", "確實" in reply
 
         user_input = "I am thankful for ...."
         reply = MessageProcessHelper(user_input).calc_reply()
-        assert "indeed" in reply
+        assert "I am thankful for" in reply
 
         user_input = "I am grateful for..."
         reply = MessageProcessHelper(user_input).calc_reply()
-        assert "indeed" in reply
+        assert "I am grateful for" in reply
 
     def test_language_input_random(self):
         from langdetect import detect
@@ -42,3 +42,13 @@ class TestMessage:
         reply = mph.calc_reply()
         assert mph.detect_language(reply) == 'en'
 
+    def test_en_upper(self):
+        # Upper case
+        user_input = "I AM SO GRATEFUL FOR"
+        reply = MessageProcessHelper(user_input).calc_reply()
+        assert "GRATEFUL", "indeed" in reply
+
+        # Mixed case
+        user_input = "Extremely Grateful for"
+        reply = MessageProcessHelper(user_input).calc_reply()
+        assert "Grateful", "indeed" in reply
