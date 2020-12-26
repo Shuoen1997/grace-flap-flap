@@ -6,6 +6,10 @@ class TestMain:
         r = client.get('/')
         assert '200' in r.status
 
+    def test_home_failed_access(self, client):
+        r = client.post('/main')
+        assert '400' in r.status
+
 
 
 
