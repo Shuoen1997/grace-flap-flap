@@ -4,9 +4,9 @@
   <form method="post">
     <label for="password">Please enter the password: </label><br>
     <input type="password" name="password" id="password" required>
-    <input type="submit" value="Log In">
+    <input class="sub_btn" type="submit" value="Login">
   {% if error %}
-      <div><span style="color: indianred; font-weight: bold" >{{ error }}</span></div>
+      <div><span style="color: indianred; font-weight: bold; font-size: 8px" >{{ error }}</span></div>
   {% endif %}
   </form>
 {% endblock %}
