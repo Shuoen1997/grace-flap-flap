@@ -11,6 +11,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+from helpers.messge_process_helper import MessageProcessHelper
 
 blueprint = Blueprint('receive', __name__, template_folder='templates')
 
@@ -44,7 +45,5 @@ def callback():
 def handle_message(event):
     text = event.message.text
     current_app.logger.info("Received TEXT:" + text)
-    if text == "hello":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="hello there!"))
-    elif text == "bye":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="bye :("))
+    reply = MessageProcessHelper(text).calc_reply()
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply))
