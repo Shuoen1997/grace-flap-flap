@@ -1,96 +1,25 @@
 import os
-import requests
-import json
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, request, abort, render_template, redirect, url_for, g, session
-
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import *
+from flask import Flask
 
 app = Flask(__name__)
-load_dotenv(find_dotenv())
-
-# Channel Access Token
-channel_access_token = os.getenv('CHANNEL_ACCESS_TOKEN')
-line_bot_api = LineBotApi(channel_access_token)
-
-# Channel Secret
-channel_secret = os.getenv('CHANNEL_SECRET')
-handler = WebhookHandler(channel_secret)
 
 
-@app.route("/", methods=['GET', 'POST'])
-def home():
-    if request.method == 'POST':
-        password = request.form['password']
-        if password == os.getenv('SECRET_PASSWORD'):
-            session['authenticated'] = True
-            return redirect(url_for("main"))
-        else:
-            return render_template("home.html", error="Incorrect password")
-    if request.method == 'GET':
-        return render_template("home.html")
+def run_app():
+    load_dotenv(find_dotenv())
+    app.secret_key = bytes(os.getenv('SESSION_KEY'), "utf-8").decode('unicode_escape')
+    register_blueprints()
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 
-@app.route("/main", methods=['GET', 'POST'])
-def main():
-    if 'authenticated' not in session:
-        return "Not permitted!"
+def register_blueprints():
+    from views.admin import send_message_views
+    from views.receiver import receive_views
 
-    if request.method == 'POST':
-        message = request.form['message-context']
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {channel_access_token}'
-        }
-        data = {
-            "to": "U68224c4538a68ae95239bb8a15807a1c",
-            "messages": [{"type": "text", "text": message}]
-        }
-        try:
-            r = requests.post(url='https://api.line.me/v2/bot/message/push', headers=headers, json=data)
-            r.raise_for_status()
-        except requests.RequestException as e:
-            raise SystemExit(e)
-        else:
-            return render_template("main.html", message=message)
-
-    return render_template("main.html")
-
-
-# 監聽所有來自 /callback 的 Post Request
-@app.route("/callback", methods=['POST'])
-def callback():
-    # get X-Line-Signature header value
-    signature = request.headers['X-Line-Signature']
-    # get request body as text
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-    return 'OK'
-
-
-# 處理訊息
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    text = event.message.text
-    app.logger.info("Received TEXT:" + text)
-    if text == "hello":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="hello there!"))
-    elif text == "bye":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="bye :("))
+    app.register_blueprint(send_message_views.blueprint)
+    app.register_blueprint(receive_views.blueprint)
 
 
 if __name__ == "__main__":
-    port = int(os.getenv('PORT'))
-    app.secret_key = bytes(os.getenv('SESSION_KEY'), "utf-8").decode('unicode_escape')
-    app.run(host='0.0.0.0', port=port, debug=True)
+    run_app()
+

@@ -1,4 +1,7 @@
 line-bot-sdk
-flask
-python-dotenv
+flask~=1.1.2
+python-dotenv~=0.15.0
 gunicorn
+requests~=2.25.1
+pytest
+coverage
