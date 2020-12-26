@@ -3,10 +3,10 @@
 
 name: Python application
 env:
-  CHANNEL_ACCESS_TOKEN: ZBDzBgZ0qs73mCyLo0Z46UvYNRQ5zH+tSAZP9JhCmT/kYSYEz+tOaX/wFfgXUPlhLX1Mg9rywDp7Bu9CcN+jGFUzHvBZMR6I2imKJ+roftWe4JMkFVnedM+P0sCEizWDSL4+BbxvMoWGzG6EHpb35AdB04t89/1O/w1cDnyilFU=
-  CHANNEL_SECRET: a51fd4704f849eaf27dcac992021bcd8
-  SESSION_KEY: \x17\x87\x17\xee\x18\x93\x04\xba\x1b\xe7\x7f5\xf1-K\xdf
-  SECRET_PASSWORD: seaflapflap
+  CHANNEL_ACCESS_TOKEN: ${{secrets.CHANNEL_ACCESS_TOKEN}}
+  CHANNEL_SECRET: ${{secrets.CHANNEL_SECRET}}
+  SESSION_KEY: ${{secrets.SESSION_KEY}}
+  SECRET_PASSWORD: ${{secrets.SECRET_PASSWORD}}
 on:
   push:
     branches: [ main ]
