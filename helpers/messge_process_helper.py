@@ -30,18 +30,21 @@ class MessageProcessHelper:
 
     thank_keywords = {
         "zh-cn": ["感恩", "感謝", "謝恩", "謝謝"],
-        "en": ["thankful", "grateful"]
-    }
-
-    thank_reply = {
-        "zh-cn": f"確實是很值得感恩的事呢！「{0}」，幫你記錄下來囉:)",
-        "en": f"'{0}'!Something to be thankful for indeed! I have noted it down for you :)"
+        "en": ["thankful", "grateful","blessed"]
     }
 
     def __init__(self, user_input):
         self.user_input = user_input
 
-    def detect_language(self, text) -> str:
+    @staticmethod
+    def get_thankful_reply(text, lan):
+        if lan == 'zh-cn':
+            return f"確實是很值得感恩的事呢！「{text}」，幫你記錄下來囉:)"
+        else:
+            return f"'{text}'!Something to be thankful for indeed! I have noted it down for you :)"
+
+    @staticmethod
+    def detect_language(text) -> str:
         from langdetect import detect
         lan = detect(text)
         # if the detected language is not English nor Chinese
@@ -60,7 +63,7 @@ class MessageProcessHelper:
         # If the user input contains the thankful keyword for that language,
         # then reply with the thankful reply
         # Else, give a randomized reply of the language
-        if any(k in self.user_input for k in self.thank_keywords[lan]):
-            return self.thank_reply[lan].format(self.user_input)
+        if any(k in self.user_input.lower() for k in self.thank_keywords[lan]):
+            return self.get_thankful_reply(text=self.user_input, lan=lan)
         else:
             return choice(self.random_replies[lan])
