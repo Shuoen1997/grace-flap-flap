@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-{% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
-{% endblock %}
+{% extends "shared/_layout.html" %}
 
-{% block content %}
+{% block main_content %}
   <form method="post">
-    <label for="password">Password</label>
+    <label for="password">Please enter the password: </label><br>
     <input type="password" name="password" id="password" required>
     <input type="submit" value="Log In">
+  {% if error %}
+      <div><span style="color: indianred; font-weight: bold" >{{ error }}</span></div>
+  {% endif %}
   </form>
 {% endblock %}

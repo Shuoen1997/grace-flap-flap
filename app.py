@@ -2,7 +2,7 @@ import os
 import requests
 import json
 from dotenv import load_dotenv, find_dotenv
-from flask import Flask, request, abort, render_template, redirect, url_for, Response
+from flask import Flask, request, abort, render_template, redirect, url_for, g, session
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -23,27 +23,25 @@ line_bot_api = LineBotApi(channel_access_token)
 channel_secret = os.getenv('CHANNEL_SECRET')
 handler = WebhookHandler(channel_secret)
 
-permitted = False
-
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         password = request.form['password']
-        if password != '123456':
-            return "You don't have access to this page"
+        if password == os.getenv('SECRET_PASSWORD'):
+            session['authenticated'] = True
+            return redirect(url_for("main"))
+        else:
+            return render_template("home.html", error="Incorrect password")
     if request.method == 'GET':
-        return render_template('home.html')
-    global permitted
-    permitted = True
-    return redirect(url_for("main"))
+        return render_template("home.html")
 
 
 @app.route("/main", methods=['GET', 'POST'])
 def main():
-    global permitted
-    if not permitted:
-        return "You cannot directly access this page!"
+    if 'authenticated' not in session:
+        return "Not permitted!"
+
     if request.method == 'POST':
         message = request.form['message-context']
         headers = {
@@ -60,9 +58,9 @@ def main():
         except requests.RequestException as e:
             raise SystemExit(e)
         else:
-            return "SUCCESS. Message sent: " + message
+            return render_template("main.html", message=message)
 
-    return render_template('main.html')
+    return render_template("main.html")
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -85,6 +83,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     text = event.message.text
+    app.logger.info("Received TEXT:" + text)
     if text == "hello":
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text="hello there!"))
     elif text == "bye":
@@ -92,5 +91,6 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.getenv('PORT'))
+    app.secret_key = bytes(os.getenv('SESSION_KEY'), "utf-8").decode('unicode_escape')
     app.run(host='0.0.0.0', port=port, debug=True)

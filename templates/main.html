@@ -1,32 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Grace Flap Flap Host</title>
-</head>
-Ω
-<body>
-<style>
-    .inputf {
-        font-weight: bold;
-    }
-</style>
-<h1>Hello, world! This is Grace Flap Flap</h1>
-<!--<div>-->
-<!--    <span class="inputf">-->
-<!--        <label for="message-context"> Your message:-->
-<!--        <input type="text" id="message-context">-->
-<!--    </label>-->
-<!--    <button name="send-message-btn">Click me to send message!</button>-->
-<!--    </span>-->
-
-<!--</div>-->
-{% block content %}
-  <form method="post">
-    <label for="message-context">Your message:</label><br>
-      <textarea name="message-context" id="message-context" rows="4", cols="50"></textarea>
-    <input type="submit" value="Submit message">
-  </form>
+{% extends "shared/_layout.html" %}
+{% block main_content %}
+    {% if message %}
+        <div> Message delivered! <br> => <span style="font-weight: bold">{{ message }}</span></div>
+    {% else %}
+        <form method="post">
+            <label for="message-context">Your message:</label><br>
+            <textarea class="txt_fld" name="message-context" id="message-context" rows="4" , cols="30"></textarea><br>
+            <input class="sub_btn" type="submit" value="SUBMIT">
+        </form>
+    {% endif %}
 {% endblock %}
-</body>
-</html>
