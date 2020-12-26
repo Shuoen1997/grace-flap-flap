@@ -1,6 +1,11 @@
+class SupportedLanguage:
+    CH = 'mandarin'
+    EN = 'english'
+
+
 class MessageProcessHelper:
     random_replies = {
-        "mandarin": [
+        SupportedLanguage.CH: [
             "你真的很可愛耶！哈哈哈哈哈",
             "沒什麼事的話我先去玩沙囉，疑不對，魟魚會玩沙嗎？",
             "有感恩的事嗎？沒有的話我先去玩沙囉！",
@@ -13,7 +18,7 @@ class MessageProcessHelper:
             "能做你朋友我很榮幸，你帶給我好多快樂哦！",
             "你好好玩喔ＸＤ"
         ],
-        "english": [
+        SupportedLanguage.EN: [
             "You are such a cutie :D",
             "Just chilling, I guess",
             "Any thankful things? If not I'm gonna go play with crab now!",
@@ -29,12 +34,12 @@ class MessageProcessHelper:
     }
 
     thank_keywords = {
-        "mandarin": ["感恩", "感謝", "謝恩", "謝謝"],
-        "english": ["thankful", "grateful", "blessed"]
+        SupportedLanguage.CH: ["感恩", "感謝", "謝恩", "謝謝"],
+        SupportedLanguage.EN: ["thankful", "grateful", "blessed"]
     }
 
-    def __init__(self, user_input):
-        self.user_input = user_input
+    def __init__(self, u_input):
+        self.user_input = u_input
 
     @staticmethod
     def get_thankful_reply(text, language):
@@ -54,15 +59,17 @@ class MessageProcessHelper:
             language = detect(text)
         except Exception as e:
             print("An exception has occurred! Exception: ", e)
-            return 'mandarin'
+            return SupportedLanguage.CH
         else:
             # if the detected language is not English nor Chinese
             if language in ['zh-cn', 'zh-tw', 'ko']:
-                return 'mandarin'
-            if language in ['en', 'ro', 'fr', 'af', 'it']:
-                return 'english'
+                return SupportedLanguage.CH
+            if language in ['en', 'ro', 'fr', 'af', 'it', 'so']:
+                return SupportedLanguage.EN
 
-        raise KeyError("Language not caught in the condition. Lan is: " + language)
+        # If not in the above list, default to Chinese
+        print("Language not caught in the condition. Lan is: " + language)
+        return SupportedLanguage.CH
 
     def calc_reply(self) -> str:
         from random import choice
@@ -71,10 +78,10 @@ class MessageProcessHelper:
         # If the user input contains the thankful keyword for that language,
         # then reply with the thankful reply
         # Else, give a randomized reply of the language
-        if any(k in self.user_input.lower() for k in self.thank_keywords[lan]):
+        if any(k in self.user_input.lower() for k in self.thank_keywords[language]):
             return self.get_thankful_reply(text=self.user_input, language=language)
         else:
-            return choice(self.random_replies[lan])
+            return choice(self.random_replies[language])
 
 
 if __name__ == '__main__':
