@@ -16,7 +16,6 @@ def home():
         else:
             return render_template("home.html", error="Incorrect password")
     if request.method == 'GET':
-        print("I'm here!")
         return render_template("home.html")
 
 
