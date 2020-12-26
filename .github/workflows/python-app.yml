@@ -2,6 +2,11 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Python application
+env:
+  CHANNEL_ACCESS_TOKEN: ZBDzBgZ0qs73mCyLo0Z46UvYNRQ5zH+tSAZP9JhCmT/kYSYEz+tOaX/wFfgXUPlhLX1Mg9rywDp7Bu9CcN+jGFUzHvBZMR6I2imKJ+roftWe4JMkFVnedM+P0sCEizWDSL4+BbxvMoWGzG6EHpb35AdB04t89/1O/w1cDnyilFU=
+  CHANNEL_SECRET: a51fd4704f849eaf27dcac992021bcd8
+  SESSION_KEY: \x17\x87\x17\xee\x18\x93\x04\xba\x1b\xe7\x7f5\xf1-K\xdf
+  SECRET_PASSWORD: seaflapflap
 on:
   push:
     branches: [ main ]
