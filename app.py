@@ -1,6 +1,8 @@
 import os
+import logging
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask
+
 
 
 def create_app():
@@ -13,6 +15,7 @@ def create_app():
 
 def run_app():
     app = create_app()
+    app.logger.setLevel(logging.INFO)
     app.run(host='0.0.0.0', port=5000, debug=True)
 
 
