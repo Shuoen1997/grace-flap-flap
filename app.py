@@ -22,9 +22,14 @@ def run_app():
 def register_blueprints(app):
     from views.admin import send_message_views
     from views.receiver import receive_views
+    from views.home import login_views, main_views
+    from views.user import grateful_list_views
 
     app.register_blueprint(send_message_views.blueprint)
     app.register_blueprint(receive_views.blueprint)
+    app.register_blueprint(login_views.blueprint)
+    app.register_blueprint(main_views.blueprint)
+    app.register_blueprint(grateful_list_views.blueprint)
 
 
 if __name__ == "__main__":

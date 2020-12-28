@@ -1,12 +1,9 @@
 {% extends "shared/_layout.html" %}
-
+<body>
 {% block main_content %}
-  <form method="post">
-    <label for="password">Please enter the password: </label><br>
-    <input type="password" name="password" id="password" required>
-    <input class="sub_btn" type="submit" value="Login">
-  {% if error %}
-      <div><span style="color: indianred; font-weight: bold; font-size: 8px" >{{ error }}</span></div>
-  {% endif %}
-  </form>
+    <div>
+        <a href="{{ url_for("login.login_get") }}" class="btn btn btn-outline-primary btn-lg" name="Login">Login</a>
+    </div>
+
 {% endblock %}
+</body>

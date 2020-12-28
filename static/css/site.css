@@ -1,39 +1,32 @@
-.title {
-    /*font-weight: bold;*/
+body{
+    background-color: yellowgreen;
 }
 .page_title {
     font-size: 30px;
     padding: 20px;
     margin: 10px;
-    color: yellowgreen;
+    color: darkcyan;
     border-style: dotted;
-    border-color: yellowgreen;
+    border-color: purple;
     text-align: center;
+    /*background: darkblue;*/
 }
 
 .main_content {
     font-size: 20px;
     margin: 10px;
     padding: 30px;
-    color: yellowgreen;
+    color: purple;
     text-align: center;
-}
 
-.sub_btn {
-    border-radius: 5px;
-    border-color: yellow;
-    background: yellowgreen;
-    color: white;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 
 .txt_fld {
     background: white;
-    border-color: yellowgreen;
+    border-color: purple;
     border-radius: 5px;
     border-style: dot-dash;
     font-size: 20px;
     padding: 10px;
-    color: yellowgreen;
+    color: purple;
 }
