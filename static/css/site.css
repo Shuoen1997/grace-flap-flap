@@ -1,22 +1,40 @@
-body{
-    background-color: yellowgreen;
+:root {
+  --main-text-color: lightblue;
 }
+
+
+
+.title_holder {
+    background-color: lightblue;
+
+}
+
 .page_title {
     font-size: 30px;
-    padding: 20px;
-    margin: 10px;
-    color: darkcyan;
-    border-style: dotted;
-    border-color: purple;
+    margin: auto;
     text-align: center;
-    /*background: darkblue;*/
+    padding-top: 80px;
+    padding-bottom: 20px;
+}
+
+.page_title h1 {
+    font-size: 100px;
+    color: mintcream;
+}
+
+.info_text {
+    color: whitesmoke;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 0px 0px 50px;
 }
 
 .main_content {
     font-size: 20px;
     margin: 10px;
     padding: 30px;
-    color: purple;
+    color: var(--main-text-color);
     text-align: center;
 
 }
@@ -29,4 +47,23 @@ body{
     font-size: 20px;
     padding: 10px;
     color: purple;
+}
+
+.nav-item {
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--main-text-color);
+    font-size: 15px;
+    color: var(--main-text-color);
+    padding-inline: 15px;
+    margin: 10px;
+}
+
+.nav-link {
+    color: var(--main-text-color);
+}
+
+.about_text {
+    margin: auto;
+    padding-inline: 20%;
 }
